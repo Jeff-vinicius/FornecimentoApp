@@ -45,6 +45,8 @@ namespace Fornecimento.App
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddScoped<FornecimentoDbContext>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IFornecedorRepository, FornecedorRepository>();
