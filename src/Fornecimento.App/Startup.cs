@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Fornecimento.Data.Context;
+using Fornecimento.Business.Interfaces;
+using Fornecimento.Data.Repository;
 
 namespace Fornecimento.App
 {
@@ -42,7 +44,13 @@ namespace Fornecimento.App
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddScoped<FornecimentoDbContext>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IFornecedorRepository, FornecedorRepository>();
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();
         }
+    }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
