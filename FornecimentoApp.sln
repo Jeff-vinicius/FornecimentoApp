@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fornecimento.App", "src\Fornecimento.App\Fornecimento.App.csproj", "{5EA52B16-8E58-40F1-88CF-EA5A7887EC02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fornecimento.App", "src\Fornecimento.App\Fornecimento.App.csproj", "{5EA52B16-8E58-40F1-88CF-EA5A7887EC02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fornecimento.Business", "src\Fornecimento.Business\Fornecimento.Business.csproj", "{AAFE7D2A-7A90-44EA-A76E-21EFEE6AF22E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fornecimento.Business", "src\Fornecimento.Business\Fornecimento.Business.csproj", "{AAFE7D2A-7A90-44EA-A76E-21EFEE6AF22E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fornecimento.Data", "src\Fornecimento.Data\Fornecimento.Data.csproj", "{55094397-1826-406C-84D1-49E49D812FB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fornecimento.Data", "src\Fornecimento.Data\Fornecimento.Data.csproj", "{55094397-1826-406C-84D1-49E49D812FB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
