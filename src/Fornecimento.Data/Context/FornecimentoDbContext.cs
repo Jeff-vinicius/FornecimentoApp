@@ -9,7 +9,11 @@ namespace Fornecimento.Data.Context
 {
     public class FornecimentoDbContext : DbContext
     {
-        public FornecimentoDbContext(DbContextOptions options) : base(options){ }
+        public FornecimentoDbContext(DbContextOptions options) : base(options)
+        {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
+        }
 
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
