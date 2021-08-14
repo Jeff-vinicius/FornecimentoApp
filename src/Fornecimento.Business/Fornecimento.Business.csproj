@@ -6,11 +6,10 @@
 
   <ItemGroup>
     <Folder Include="Notifications\" />
-    <Folder Include="Validations\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.0" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 
