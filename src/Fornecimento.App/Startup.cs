@@ -62,6 +62,10 @@ namespace Fornecimento.App
 
             services.AddAutoMapper(typeof(Startup));
 
+            services.Configure<CookieTempDataProviderOptions>(options => {
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
@@ -96,6 +100,7 @@ namespace Fornecimento.App
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
         }
     }
 }

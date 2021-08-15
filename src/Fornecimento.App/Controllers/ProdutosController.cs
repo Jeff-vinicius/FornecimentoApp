@@ -16,14 +16,18 @@ namespace Fornecimento.App.Controllers
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IFornecedorRepository _fornecedorRepository;
+        private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepository produtoRepository,
                                     IFornecedorRepository fornecedorRepository,
-                                    IMapper mapper)
+                                    IProdutoService produtoService,
+                                    IMapper mapper,
+                                    INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
             _fornecedorRepository = fornecedorRepository;
+            _produtoService = produtoService;
             _mapper = mapper;
         }
 
@@ -68,7 +72,9 @@ namespace Fornecimento.App.Controllers
             }
 
             produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
-            await _produtoRepository.Add(_mapper.Map<Produto>(produtoViewModel));
+            await _produtoService.Add(_mapper.Map<Produto>(produtoViewModel));
+
+            if (!OperacaoValida()) return View(produtoViewModel);
 
             return RedirectToAction("Index");
         }
@@ -114,7 +120,10 @@ namespace Fornecimento.App.Controllers
             produtoAtualizacao.Valor = produtoViewModel.Valor;
             produtoAtualizacao.Ativo = produtoViewModel.Ativo;
 
-            await _produtoRepository.Update(_mapper.Map<Produto>(produtoAtualizacao));
+            await _produtoService.Update(_mapper.Map<Produto>(produtoAtualizacao));
+
+            if (!OperacaoValida()) return View(produtoViewModel);
+
             return RedirectToAction("Index");
         }
 
@@ -143,7 +152,11 @@ namespace Fornecimento.App.Controllers
                 return NotFound();
             }
 
-            await _produtoRepository.Remove(id);
+            await _produtoService.Remove(id);
+
+            if (!OperacaoValida()) return View(produto);
+
+            TempData["Sucesso"] = "Produto excluido com sucesso!";
 
             return RedirectToAction("Index");
         }

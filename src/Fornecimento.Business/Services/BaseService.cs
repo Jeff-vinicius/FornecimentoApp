@@ -1,11 +1,20 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Fornecimento.Business.Interfaces;
 using Fornecimento.Business.Models;
+using Fornecimento.Business.Notifications;
 
 namespace Fornecimento.Business.Services
 {
     public abstract class BaseService
     {
+        private readonly INotificador _notificador;
+
+        public BaseService(INotificador notificador)
+        {
+            _notificador = notificador;
+        }
+
         protected void Notificar(ValidationResult validationResult)
         {
             foreach (var error in validationResult.Errors )
@@ -16,7 +25,7 @@ namespace Fornecimento.Business.Services
 
         protected void Notificar(string mensagem)
         {
-
+            _notificador.Handle(new Notificacao(mensagem));
         }
 
         protected bool ExecutarValidacao<TV, TE>(TV validacao, TE entidade) where TV : AbstractValidator<TE> where TE : Entity

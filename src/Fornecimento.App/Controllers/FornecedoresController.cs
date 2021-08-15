@@ -12,16 +12,17 @@ namespace Fornecimento.App.Controllers
     public class FornecedoresController : BaseController
     {
         private readonly IFornecedorRepository _fornecedorRepository;
-        private readonly IEnderecoRepository _enderecoRepository;
+        private readonly IFornecedorService _fornecedorService;
         private readonly IMapper _mapper;
 
         public FornecedoresController(IFornecedorRepository fornecedorRepository,
-                                      IMapper mapper,
-                                      IEnderecoRepository enderecoRepository)
+                                      IMapper mapper,                                   
+                                      IFornecedorService fornecedorService,
+                                      INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _mapper = mapper;
-            _enderecoRepository = enderecoRepository;
+            _fornecedorService = fornecedorService;
         }
 
 
@@ -59,7 +60,9 @@ namespace Fornecimento.App.Controllers
             if (!ModelState.IsValid) return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Add(fornecedor);
+            await _fornecedorService.Add(fornecedor);
+
+            if (!OperacaoValida()) return View(fornecedorViewModel);
 
             return RedirectToAction("Index");
 
@@ -88,7 +91,9 @@ namespace Fornecimento.App.Controllers
             if (!ModelState.IsValid) return View(fornecedorViewModel);
 
             var fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
-            await _fornecedorRepository.Update(fornecedor);
+            await _fornecedorService.Update(fornecedor);
+
+            if (!OperacaoValida()) return View(await GetFornecedorAndProdutosAndEndereco(id));
 
             return RedirectToAction("Index");  
         }
@@ -111,11 +116,13 @@ namespace Fornecimento.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var fornecedorViewModel = await GetFornecedorAndEndereco(id);
+            var fornecedor = await GetFornecedorAndEndereco(id);
 
-            if (fornecedorViewModel == null) return NotFound();
+            if (fornecedor == null) return NotFound();
 
-            await _fornecedorRepository.Remove(id);
+            await _fornecedorService.Remove(id);
+
+            if (!OperacaoValida()) return View(fornecedor);
 
             return RedirectToAction("Index");
         }
@@ -156,7 +163,9 @@ namespace Fornecimento.App.Controllers
             
             if (!ModelState.IsValid) return PartialView("_UpdateEndereco", fornecedorViewModel);
 
-            await _enderecoRepository.Update(_mapper.Map<Endereco>(fornecedorViewModel.Endereco));
+            await _fornecedorService.UpdateEndereco(_mapper.Map<Endereco>(fornecedorViewModel.Endereco));
+
+            if (!OperacaoValida()) return PartialView("_UpdateEndereco", fornecedorViewModel);
 
             var url = Url.Action("GetEndereco", "Fornecedores", new { id = fornecedorViewModel.Endereco.FornecedorId });
             return Json(new { success = true, url });

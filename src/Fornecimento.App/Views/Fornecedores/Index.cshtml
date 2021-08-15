@@ -32,7 +32,8 @@
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @this.FormataDocumento(item.TipoFornecedor, item.Documento)
+                @*@this.FormataDocumento(item.TipoFornecedor, item.Documento)*@
+                @Html.DisplayFor(modelItem => item.Documento)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ativo)
